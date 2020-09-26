@@ -1,0 +1,193 @@
+---
+title: "MAE0327 - Planejamento e Pesquisa II - Lista 1"
+author: |
+   | Bruno de Castro Paul Schultze \thanks{Número USP: 10736862}
+   | Guilherme Tamborra\thanks{Número USP: 10736816}
+   | Gustavo de Oliveira Kanno\thanks{Número USP: 9795810}
+   | Rubens Santos Andrade Filho\thanks{Número USP: 10370336}
+date: "`r stringr::str_to_sentence(format(Sys.time(), '%B de %Y'))`"
+lang: pt-BR
+header-includes:
+  # - \usepackage[brazilian]{babel}
+  - \usepackage{float}
+  - \usepackage{amsmath}
+  - \usepackage{amsthm}
+  - \floatplacement{figure}{H}
+  - \usepackage{indentfirst}
+  - \setlength{\parindent}{4em}
+  - \setlength{\parskip}{1em}
+  - \usepackage{booktabs}
+  - \usepackage{dcolumn}
+  - \usepackage{bm}
+  - \usepackage{titling}
+  - \thanksmarkseries{arabic} % \thanks footnotes com numeros
+  - \usepackage[bottom]{footmisc} % corrige posição footnotes
+  - \usepackage{pdfpages}
+  - \usepackage{tocloft}
+  - \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+  - \usepackage{amssymb}
+  - \renewcommand\qedsymbol{$\blacksquare$}
+  - \usepackage{cleveref}
+output: 
+  pdf_document: 
+    fig_caption: yes
+    # number_sections: yes
+    toc: true
+    toc_depth: 2
+#keep_tex: true
+editor_options: 
+  chunk_output_type: console
+# bibliography: ref.bib
+---
+  
+\pagebreak
+
+\newcommand\invisiblesection[1]{%
+  \refstepcounter{section}%
+  \addcontentsline{toc}{section}{#1}%
+  \sectionmark{#1}}
+  
+<!-- \newcommand\invisiblesection[1]{% -->
+<!--   \refstepcounter{section}% -->
+<!--   \addcontentsline{toc}{section}{\protect\numberline{\thesection}#1}% -->
+<!--   \sectionmark{#1}} -->
+
+<!-- \newcommand\invisiblessection[1]{% -->
+<!--   \refstepcounter{subsection}% -->
+<!--   \addcontentsline{toc}{subsection}{\protect\numberline{\thesection}#1}% -->
+<!--   \sectionmark{#1}} -->
+
+```{r setup, include=FALSE}
+# options(tinytex.verbose = TRUE)
+
+# template com paramentros padrao para as figuras
+knitr::opts_template$set(figuras = list(echo = FALSE, 
+                                        results='hide', 
+                                        fig.show = "hold",
+                                        fig.align = 'center',
+                                        fig.ncol = 1,
+                                        # fig.width = 4,
+                                        # fig.height = 4,
+                                        out.width = "\\textwidth",
+                                        out.height = "0.9\\textheight"
+))
+knitr::opts_template$set(figuras2 = list(echo = FALSE, 
+                                         results='hide', 
+                                         fig.show = "hold",
+                                         fig.align = 'center',
+                                         fig.ncol = 2,
+                                         fig.width = 4,
+                                         out.width = "0.48\\textwidth", 
+                                         out.height = "0.30\\textheight"))
+
+knitr::opts_template$set(
+  series = list(echo = FALSE, 
+                results='hide', 
+                fig.show = "hold",
+                warning=FALSE,
+                fig.align = 'center',
+                fig.ncol = 1,
+                fig.heigth=3, 
+                fig.width=16
+                # out.width = "\\textheight"
+                ))
+
+# uso: <<r, opts.label='figuras'>>=
+# uso: ```{r, opts.label='figuras'}
+
+
+```
+
+```{r libs, include=FALSE}
+library(tidyverse)
+library(knitr)
+library(stargazer)
+library(tidyverse)
+library(kableExtra)
+library(ggplot2)
+library(moments)
+```
+
+```{r func_aux, include=FALSE}
+# Funções auxliares ----
+
+kable <- function(...) {
+  args <- list(
+    ...,
+    {if(!interactive() & knitr::is_latex_output()) format = 'latex'},
+    digits = 3,
+    booktabs = TRUE,
+    format.args = list(decimal.mark = ",", big.mark = "."))
+  
+  args <- args[!duplicated(names(args))]
+  
+  do.call(knitr::kable, args) %>% kable_styling(latex_options = "HOLD_position")
+}
+
+stargazer <- function(...) {
+  # Muda formatação padrão da função stargazer
+  args <- list(
+    ...,
+    type= ifelse(interactive(),'text',ifelse(knitr::is_latex_output(),'latex','html')),
+    table.placement = "H", #posicao
+    header = F, # créditos
+    model.numbers = F,
+    no.space=T,#single.row = T,#
+    dep.var.caption = "",
+    dep.var.labels.include = F,
+    decimal.mark = ",",
+    digit.separator = ".",
+    align = T
+  )
+  
+  # remove args duplicados, mantendo os passados em '...'
+  args <- args[!duplicated(names(args))]
+  
+  do.call(stargazer::stargazer, args)
+}
+
+
+mysummary <- function(x){
+  # auto named list of function
+  flist <- tibble::lst(mean, var, skewness, kurtosis, min,
+    `1st q.` = function(y) quantile(y, prob=.25, names = F),
+    median,
+    `3rd q.` = function(y) quantile(y, prob=.75, names = F),
+    max)
+  
+  sapply(flist, function(f) f(x)) %>% 
+    as.matrix()
+}
+```
+
+
+
+# Questão 1
+
+Consideramos os dados de consumo de oxigênio (O2cons) avaliado em três tipos de células (T6, T12 e T18) submetidas a um Tratamento (Placebo *x* Virum), na presença (=1) ou ausência (=0) de um Vírus. 
+
+```{r}
+dados <- read.csv('O2cons.csv',stringsAsFactors = T)
+dados <- dados %>% 
+  mutate(Virus = factor(Virus,0:1, c("Ausente", "Presente")),
+         Grup = NULL)
+```
+
+Com  o  objetivo  de  avaliar  se  o  consumo  de  oxigênio  é  afetado  pelo  Tratamento  e  pela exposição ao Virus, propomos uma Análise de Variância* para os dados de cada tipo celular:
+a) T6
+```{r}
+aov_t6 <- aov(T6 ~ Trat + factor(Virus),dados)
+
+anova(aov_t6)
+summary.lm(aov_t6)
+```
+
+b) T12
+c) T18
+d) Simule dados de um novo tipo celular (digamos TSim) em que há efeito de interação entre Tratamento  e  exposição  ao  Virus.Proponha  uma  análise*  dos  dados  gerados.
+
+
+*Na  análise  considere:  modelo  estrutural  e  distribucional  adotado,  análise de  diagnósticodas suposições do modelo, tabela da ANOVA com as correspondentes fontes de variação,possíveis comparações múltiplas entre médias e conclusão da análise.
+Na  simulação considere o seguinte padrão de variação das médias de O2cons:
+
+<!-- INCLUIR ESQUEMA.PNG -->
