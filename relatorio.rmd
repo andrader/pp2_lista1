@@ -174,20 +174,34 @@ dados <- dados %>%
 ```
 
 Com  o  objetivo  de  avaliar  se  o  consumo  de  oxigênio  é  afetado  pelo  Tratamento  e  pela exposição ao Virus, propomos uma Análise de Variância* para os dados de cada tipo celular:
-a) T6
+
+## a) T6
+modelo  estrutural  e  distribucional  adotado,  
+análise de  diagnóstico das suposições do modelo, 
+tabela da ANOVA com as correspondentes fontes de variação,
+possíveis comparações múltiplas entre médias e 
+conclusão da análise.
 ```{r}
 aov_t6 <- aov(T6 ~ Trat + factor(Virus),dados)
 
-anova(aov_t6)
-summary.lm(aov_t6)
+# anova(aov_t6)
+# summary.lm(aov_t6)
 ```
 
 b) T12
+
 c) T18
-d) Simule dados de um novo tipo celular (digamos TSim) em que há efeito de interação entre Tratamento  e  exposição  ao  Virus.Proponha  uma  análise*  dos  dados  gerados.
+
+## d) 
+Simule dados de um novo tipo celular (digamos TSim) em que há efeito de interação entre Tratamento  e  exposição  ao  Virus. Proponha  uma  análise*  dos  dados  gerados.
+
+Na  simulação consideramos o seguinte padrão de variação das médias de O2cons:
+
+```{r pressure, echo=FALSE, fig.cap="Padrão de variação das médias de O2cons.", out.width = '50%',fig.align='center'}
+knitr::include_graphics("esquema.png")
+```
 
 
 *Na  análise  considere:  modelo  estrutural  e  distribucional  adotado,  análise de  diagnósticodas suposições do modelo, tabela da ANOVA com as correspondentes fontes de variação,possíveis comparações múltiplas entre médias e conclusão da análise.
-Na  simulação considere o seguinte padrão de variação das médias de O2cons:
 
-<!-- INCLUIR ESQUEMA.PNG -->
+
