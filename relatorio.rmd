@@ -4,6 +4,7 @@ author: |
    | Bruno de Castro Paul Schultze \thanks{Número USP: 10736862}
    | Guilherme Tamborra\thanks{Número USP: 10736816}
    | Gustavo de Oliveira Kanno\thanks{Número USP: 9795810}
+   | Rodrigo Marcel Araujo Oliveira\thanks{Número USP: 9299208}
    | Rubens Santos Andrade Filho\thanks{Número USP: 10370336}
 date: "`r stringr::str_to_sentence(format(Sys.time(), '%B de %Y'))`"
 lang: pt-BR
@@ -167,41 +168,190 @@ mysummary <- function(x){
 Consideramos os dados de consumo de oxigênio (O2cons) avaliado em três tipos de células (T6, T12 e T18) submetidas a um Tratamento (Placebo *x* Virum), na presença (=1) ou ausência (=0) de um Vírus. 
 
 ```{r}
+# Carrega os dados
 dados <- read.csv('O2cons.csv',stringsAsFactors = T)
 dados <- dados %>% 
-  mutate(Virus = factor(Virus,0:1, c("Ausente", "Presente")),
-         Grup = NULL)
+  mutate(Virus = factor(Virus,0:1, c("Ausente", "Presente")))
+attach(dados)
+
+# Tamanho dos grupos
+table(Grup) %>% kable(caption='caption')
+
+# Médias por grupo
+dados %>% group_by(Grup) %>% 
+  summarise(across(T6:T18, mean, .names = 'Média {col}')) %>% 
+  kable(caption='caption')
 ```
 
-Com  o  objetivo  de  avaliar  se  o  consumo  de  oxigênio  é  afetado  pelo  Tratamento  e  pela exposição ao Virus, propomos uma Análise de Variância* para os dados de cada tipo celular:
+Os dados estão estruturados da seguinte forma:
+
+* Dois fatores de efeito considerados de efeito fixo:
+  * fator Tratamento com 2 níveis - Placebo, Virum;
+  * fator Virus com 2 níveis - Ausente, Presente;
+* 12 réplicas em cada grupo formado pela combinação dos fatores Tramamento e Virus.
+* A resposta é multivariada contínua (p=3) - consumo de oxigênio (O2cons) cada uma dos três tipos de células T6, T12 e T18. Entretanto faremos uma análise para cada resposta de forma separada.
+
+
+Com  o  objetivo  de  avaliar  se  o  consumo  de  oxigênio  é  afetado  pelo  Tratamento  e  pela exposição ao Virus, propomos uma Análise de Variância para os dados de cada tipo celular. Na  análise  consideramos o  modelo  estrutural  e  distribucional  adotado,  análise de  diagnóstico das suposições do modelo, tabela da ANOVA com as correspondentes fontes de variação, possíveis comparações múltiplas entre médias e conclusão da análise.
+
+Consideramos que foi feito um Delineamento Completamente Aleatorizado (DAC) com tratamentos compostos pela combinação dos níveis dos dois fatores de efeitos fixos com dois níveis cada. Dessa forma, supomos que os tratamentos foram aplicados às unidades experimentais de modo aleatório e independente. E assim, o modelo estrutural é (utilizando a parametrização Casela de Referência):
+
+$$
+y_{ijk} = \begin{cases}
+\mu_{11} + \epsilon_{ijk},\ i=1,...,12,\ j=k=1\\
+\mu_{11} + \tau_{j} + \beta_{k} + \gamma_{jk} + \epsilon_{ijk},\ i=1,...,12,\ j=k=2
+\end{cases}
+$$
+
+Onde:
+
+\begin{itemize}
+	\item $y_{ij}$: é o consumo  de  oxigênio da unidade i submetida aos níveis j de Tratamento e k de Exposição ao vírus;
+	\item $\mu_{11}$: é o valor esperado da resposta para o nível Placebo do fator Tratamento e o nível Ausente do fator Vírus (casela de referência);
+	\item $\tau_{j}$: é o desvio em relação a $\mu_{11}$ devido ao efeito principal do nível j do fator Tratamento;
+	\item $\beta_{k}$: é o desvio em relação a $\mu_{11}$ devido ao efeito principal do nível j do fator Virus;
+	\item $\gamma_{jk}$: é o efeito de interação entre os fatores. É o desvio do efeito aditivo dos fatores;
+	\item $\epsilon_{ijk}$: é um erro aleatório não controlado.
+\end{itemize}
+
+O erro não controlado é suposto suposto normal, independente e homocedástico. Dessa forma  modelo distribucional é
+$$\epsilon_{ijk} \sim N(0,\sigma^2) \Rightarrow y_{ij} \sim N(\mu_{ij},\sigma^2)$$
+
+E sob as suposições de normalidade, independência e homocedasticidade, queremos testar:
+$$H_0 :\ \mu_{ij}=\mu_{kl}, \forall (i,j) \neq (k,l) \ \text{vs }\\
+H_1 :\ \text{existe pelo menos uma diferença entre as médias.}$$
+
+dsfjadsjfldsjfldsfdfjlsadkfjlsdafj
+
 
 ## a) T6
-modelo  estrutural  e  distribucional  adotado,  
-análise de  diagnóstico das suposições do modelo, 
+
+Ajuste do modelo dfdsgfgfgfdgfd
+```{r}
+fit <- aov(T6 ~ Trat*Virus,dados)
+```
+
+análise de diagnóstico das suposições do modelo, 
+```{r, warning=FALSE, fig.align='center', fig.width=4, fig.height=8}
+#Gráfico de Perfis de Médias dos fatores
+gp <- par()
+par(mfrow=c(2,2))
+plot(fit)
+par(gp)
+```
+
+
+```{r, fig.align='center', fig.width=4, fig.cap="legenda"}
+#Gráfico de Perfis de Médias dos fatores
+interaction.plot(Trat, Virus, T6)
+```
+
 tabela da ANOVA com as correspondentes fontes de variação,
 possíveis comparações múltiplas entre médias e 
 conclusão da análise.
-```{r}
-aov_t6 <- aov(T6 ~ Trat + factor(Virus),dados)
-
-# anova(aov_t6)
-# summary.lm(aov_t6)
-```
 
 b) T12
 
 c) T18
 
 ## d) 
-Simule dados de um novo tipo celular (digamos TSim) em que há efeito de interação entre Tratamento  e  exposição  ao  Virus. Proponha  uma  análise*  dos  dados  gerados.
+
+Simulamos os dados de um novo tipo celular (digamos TSim) em que há efeito de interação entre Tratamento  e  exposição  ao  Virus. Propomos  uma  análise  dos  dados  gerados.
+```{r}
+#Simulando dados
+#Experimento DCA Fatorial 2x2 com efeito de interação
+#Modelo estrutural: y=mi+tau1+tau2+tau12+e
+set.seed(1)
+mi<- 4
+tau1.1<- (-1.8)
+tau2.1<- (-2)
+tau12.11<- 6
+sigma<-1
+mi00<-mi
+mi01<-mi+tau2.1
+mi10<-mi+tau1.1
+mi11<-mi+tau1.1+tau2.1+tau12.11
+r<-12
+TSim<-round( c(mi00,mi01,mi10,mi11) + rnorm(4*r, 0, sigma) ,2)
+f1<-rep(0:1,each=2*r)
+f2<-rep(rep(0:1,each=r),2)
+f12<-rep(1:4,each=r)
+datSim<-data.frame(cbind(factor(f1),factor(f2),f12,TSim))
+# datSim %>% kable(caption='caption')
+str(datSim)
+```
+
+
+```{r, fig.align='center', fig.width=4, fig.cap="legenda"}
+interaction.plot(f1, f2, TSim)
+```
+
+
+```{r}
+tapply(TSim,f12,mean) %>% t() %>% kable(caption="alguma legenda")
+
+fitSim <- aov(TSim ~ f1*f2, datSim)
+#Para fatorial 2x2 é equivalente usar "aov(TSim~factor(f1)*factor(f2))"
+anova(fitSim) %>% kable(caption="fasdf")
+
+fitSim$coefficients %>% t() %>%  kable(caption="Coeficientes")
+par(mfrow=c(2,2))
+plot(fitSim)
+```
 
 Na  simulação consideramos o seguinte padrão de variação das médias de O2cons:
-
 ```{r pressure, echo=FALSE, fig.cap="Padrão de variação das médias de O2cons.", out.width = '50%',fig.align='center'}
 knitr::include_graphics("esquema.png")
 ```
 
 
-*Na  análise  considere:  modelo  estrutural  e  distribucional  adotado,  análise de  diagnósticodas suposições do modelo, tabela da ANOVA com as correspondentes fontes de variação,possíveis comparações múltiplas entre médias e conclusão da análise.
+# Questão 2
 
+
+```{r}
+##Q2
+resp<-c(0.02,-0.01,-0.03,0.04,0.15,0.27,0.14,0.22,0.18,0.24,0.11,0.18,0.45,0.58,0.35,0.48)
+resp
+x<-rep(rep(c(0,1),each=4),2)
+y<-rep(c(0,1),each=8)
+fx<-rep(c(1,2,3,4),4)
+trat<-rep(c(1,2,3,4),each=4)
+dados<-data.frame(x,y,fx,trat,resp)
+str(dados)
+fitxy<-aov(resp~factor(fx)+x*y, dados)
+summary(fitxy)
+
+#Efeito de interação entre Tratamento e Fx (Bloco)
+fitxy$coefficients
+with(data.frame(dados), interaction.plot(factor(trat),factor(fx),resp,main="Gráfico de interação"))
+fxi<-rep(c(0,fitxy$coefficients[2:4]),4)
+fxi
+xyi<-rep(c(0,fitxy$coefficients[5:7]),each=4)
+xyi
+fxyi<-fxi*xyi
+fxyi
+fititb<-aov(resp~factor(fx)+x*y+fxyi)
+summary(fititb)
+#Não há efeito significante de interação entre Tratamentos e Fx (Bloco)
+
+#Gráfico de Perfis de Médias de Tratamentos (X e Y)
+with(data.frame(dados), interaction.plot(factor(x),factor(y),resp,main="Gráfico de interação"))
+#Como o modelo é aditivo (entre Trat e Fx) o gráfico de interação é o mesmo com
+#ou sem o ajuste por FX
+#Contudo, somente no modelo ajustado por Fx é que o efeito de interação é significante
+fitxy$coefficients
+respi<-model.matrix(fitxy)%*%fitxy$coefficients[1:7]
+respi
+dadosi<-cbind(dados[,1],dados[,2],respi)
+dadosi
+with(data.frame(dadosi), interaction.plot(factor(dadosi[,1]),factor(dadosi[,2]),respi,main="Gráfico de interação ajustado"))
+par(mfrow=c(1,2))
+with(data.frame(dados), interaction.plot(factor(x),factor(y),resp,main="Gráfico de interação"))
+with(data.frame(dadosi), interaction.plot(factor(dadosi[,1]),factor(dadosi[,2]),respi,main="Gráfico de interação ajustado"))
+plot(resp,respi)
+cbind(resp,respi)
+tapply(resp,trat,mean)
+tapply(respi,trat,mean)
+
+```
 

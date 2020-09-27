@@ -28,24 +28,16 @@ tapply(T12,Grup,mean)
 tapply(T18,Grup,mean)
 table(Grup)
 
+# fazer para t6 t12 e t18
 fit6<-aov(T6~Trat*factor(Virus))
 summary(fit6)
-with(dat, interaction.plot(Trat, Virus, T6,main="Gráfico de interação para o Tratamento 6 vs Virus"))
+interaction.plot(Trat, Virus, T6,main="Interação para o Tratamento vs Virus (resposta T6)")
+pg <- par()
 par(mfrow=c(2,2))
 plot(fit6)
-#Gráfico de Perfis de Médias dos fatores
+par(pg)
 
-fit12<-aov(T12~Trat*factor(Virus))
-summary(fit12)
-with(dat, interaction.plot(Trat, Virus, T12,main="Gráfico de interação para o Tratamento 12 vs Virus"))
-par(mfrow=c(2,2))
-plot(fit12)
 
-fit18<-aov(T18~Trat*factor(Virus))
-summary(fit18)
-with(dat, interaction.plot(Trat, Virus, T18,main="Gráfico de interação para o Tratamento 18 vs Virus"))
-par(mfrow=c(2,2))
-plot(fit18)
 #Simulando dados
 #Experimento DCA Fatorial 2x2 com efeito de interação
 #Modelo estrutural: y=mi+tau1+tau2+tau12+e
