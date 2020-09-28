@@ -1,0 +1,223 @@
+---
+title: "Lista 1"
+author: |
+   
+   | Bruno de Castro Paul Schultze \thanks{Número USP: 10736862}
+   | Rubens Santos Andrade Filho \thanks{Número USP: 10370336}
+date: "Setembro de 2020"
+header-includes:
+   - \usepackage{titling}
+   - \thanksmarkseries{arabic}
+   - \usepackage[brazil]{babel}
+   - \usepackage{float}
+   - \floatplacement{figure}{H}
+   - \usepackage{indentfirst}
+   - \usepackage{pdfpages}
+   - \usepackage{tocloft}
+   - \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+output: 
+  pdf_document: 
+    fig_caption: yes
+    number_sections: yes
+    toc: true
+    toc_depth: 3
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+# paramentros padrao para os plots
+knitr::opts_chunk$set(fig.width = '\\textwidth',
+                      fig.align = 'center',
+                      out.width = "\\textwidth",
+                      warning = FALSE)
+
+
+library(knitr)
+library(stargazer)
+library(tidyverse)
+library(car)
+library(MASS)
+library(graphics)
+```
+
+\clearpage
+# Questão 1
+## a
+Primeiro, vamos importar os dados.
+
+```{r}
+o2 = read.csv("O2cons.csv", header = TRUE)
+o2$Trat = as.factor(o2$Trat)
+o2$Virus = as.factor(o2$Virus)
+```
+
+Agora, vamos separar cada tipo de célula, e também retirar a variável "Grup", já que não será utilizada.
+
+```{r}
+t6 = o2[c("Trat","Virus", "T6")]
+t12 = o2[c("Trat","Virus", "T12")]
+t18 = o2[c("Trat","Virus", "T18")]
+```
+
+Faremos então a análise de variância ANOVA (vamos considerar que suas pressuposições são satisfeitas) para as células T6. Utilizaremos, para todos os tipos de célula, o seguinte modelo, de casela de referência:
+\begin{equation}
+y_{ijk} = \begin{cases}
+            \mu + e_{ijk} & \text{se } j = 0, k = 0 \\
+            \mu + \tau_{j} + \beta_{k} + (\tau\beta)_{jk} + e_{ijk}  & \text{caso contrário} 
+          \end{cases}
+\end{equation}
+Podemos entende-lo como: $y_{ijk}$ é a i-ésima observação ($i \in \{1,2,...,12\}$) submetida ao j-ésimo nível de _Tratamento_ ($j \in \{0,1\}$, sendo 0 o tratamento P) e ao k-ésimo nível de _Vírus_ ($k \in \{0,1\}$, sendo 0 a ausência de vírus), e $\mu$ é a média do consumo de oxigênio de observações submetidas ao tratamento P e com vírus ausente. Além disso, note também que o modelo considera o efeito da interação entre _Tratamento_ e _Vírus_.
+
+```{r}
+t6.aov = aov(T6 ~ Trat * Virus, data = t6)
+summary(t6.aov)
+```
+
+Podemos observar, então, que a um nível de $5\%$ somente o efeito da variável _Vírus_ se mostra significativo, então a hipótese que mudanças no tratamento não interferem na média do consumo de oxigênio é mantida. Além disso, uma possível interação entre _Tratamento_ e _Vírus_ não tem efeito significativo para explicar variações no consumo de oxigênio. \newline
+Como um adendo, o gráfico abaixo mostra que a interação entre _Vírus_ e _Tratamento_ é de fato muito baixa, visto que as retas são quase paralelas entre si.
+
+```{r}
+interaction.plot(t6$Trat, t6$Virus, t6$T6, xlab = "Tratamento", ylab = "Média de consumo O2", trace.label = "Vírus") 
+```
+
+## b
+
+Agora vamos fazer a mesma coisa que na questão anterior, só que para células do tipo T12.
+
+```{r}
+t12.aov = aov(T12 ~ Trat * Virus, data = t12)
+summary(t12.aov)
+```
+
+Podemos observar, então, que a um nível de $5\%$ somente o efeito da variável _Tratamento_ se mostra significativo, então a hipótese que mudanças no tratamento não interferem na média do consumo de oxigênio é rejeitada. \newline
+É interessante notar que o algoritmo não mostra significância do efeito da interação entre _Tratamento_ e _Vírus_, mas o gráfico de interação abaixo mostra que ele existe. Então, vamos investigar um pouco mais a fundo se tal interação é realmente não-significativa ou se seu efeito está sendo mascarado por algum ponto.
+
+```{r}
+interaction.plot(t12$Trat, t12$Virus, t12$T12, xlab = "Tratamento", ylab = "Média de consumo O2", trace.label = "Vírus") 
+```
+
+Vamos então procurar pontos influentes.
+
+```{r}
+par(mfrow = c(2,2))
+plot(t12.aov)
+```
+
+Observemos então que os pontos 28, 37 e 4 se destacam. Vamos retirá-los e refazer a análise de variância.
+
+```{r}
+t12.aov2 = aov(T12 ~ Trat * Virus, data = t12[-c(37, 28, 4),])
+summary(t12.aov2)
+```
+
+Vemos então que não, os pontos influentes não estavam mascarando um possível efeito significativo da interação entre _Vírus_ e _Tratamento_, tal interação existe mas seu efeito não é significativo.
+
+## c
+Faremos então o mesmo que nas questões anteriores, mas para células do tipo T18.
+
+```{r}
+t18.aov = aov(T18 ~ Trat * Virus, data = t18)
+summary(t18.aov)
+```
+
+Para esse tipo de célula tanto _Tratamento_ quanto _Vírus_ têm efeitos significativos para explicar a variação do consumo médio de oxigênio a um nível de $5\%$. Novamente, a interação entre as duas não parece significativa.
+
+```{r}
+interaction.plot(t18$Trat, t18$Virus, t18$T18, xlab = "Tratamento", ylab = "Média de consumo O2", trace.label = "Vírus") 
+```
+
+Notemos, novamente, que até existe certa interação, mas graficamente ela também não parece significativa.
+
+## d
+Agora o objetivo é construir um novo tipo de célula a partir de uma simulação. Construiremos então uma experimento DCA Fatorial 2x2 com Efeito de Interação, além disso o modelo estrutural é o mesmo utilizado anteriormente, a saber:
+$$y_{ijk} = \mu + \tau_{tratamento} + \beta_{virus} + (\tau\beta)_{tratamento : vírus} + e_{ij}$$
+
+Estamos considerando também que as observações tem distribuição Normal. Agora, vamos definir as variáveis arbitrariamente, para construir as simulações e conseguir o efeito desejado de interação.
+
+```{r}
+set.seed(42)
+mu = 10
+tau = -5
+beta = -5
+inter11 = 11
+inter01 = -3
+inter10 = -3
+n = 12
+sigma = 2
+```
+
+Definimos as variáveis arbitrárias, agora vamos de fato simular as observações.
+
+```{r}
+y.00 = rnorm(n, mu, sigma )
+y.00 = as.data.frame(y.00)
+y.00  = cbind(y.00, rep(0,12), rep(0,12))
+colnames(y.00) = c("TSim", "Trat", "Virus")
+y.01 = rnorm(n, mu + beta + inter01, sigma)
+y.01 = as.data.frame(y.01)
+y.01  = cbind(y.01, rep(0,12), rep(1,12))
+colnames(y.01) = c("TSim", "Trat", "Virus")
+y.10 = rnorm(n, mu + tau + inter10)
+y.10 = as.data.frame(y.10)
+y.10  = cbind(y.10, rep(1,12), rep(0,12))
+colnames(y.10) = c("TSim", "Trat", "Virus")
+y.11 = rnorm(n, mu + tau + beta + inter11, sigma)
+y.11 = as.data.frame(y.11)
+y.11  = cbind(y.11, rep(1,12), rep(1,12))
+colnames(y.11) = c("TSim", "Trat", "Virus")
+
+tsim = rbind(y.00, y.01, y.10, y.11)
+tsim$Trat[tsim$Trat ==0] = "P"
+tsim$Trat[tsim$Trat ==1] = "V"
+tsim$Trat = as.factor(tsim$Trat) 
+tsim$Virus = as.factor(tsim$Virus)
+rm(y.00,y.01,y.10,y.11)
+```
+
+Agora, com a simulação construída, vamos checar as suposições da ANOVA.
+
+### Normalidade dos Resíduos {-}
+
+Para essa checagem, vamos usar duas abordagens. Primeiro um gráfico QQ comparando com a Distribuição Normal, e também o Teste de Shapiro Wilk.
+
+```{r}
+tsim.aov = aov(TSim ~ Trat * Virus, data = tsim)
+qqnorm(tsim.aov$residuals)
+```
+
+A distribuição parece de fato se adequar à normalidade, mas de qualquer forma utilizaremos o Teste de Shapiro Wilk para confirmar.
+
+```{r}
+shapiro.test(tsim.aov$residuals)
+```
+
+Como o p-valor é bem maior que $5\%$, não rejeitamos a hipótese de normalidade a um nível de $5\%$, então podemos continuar a análise.
+
+### Homogeinidade da Variância {-}
+Para isso utilizaremos o Teste de Levene
+```{r}
+leveneTest(TSim ~ Trat * Virus, data = tsim)
+```
+
+Pelo p-valor não rejeitamos a hipótese de homogeinidade da variância.
+
+### Independência entre Observações {-}
+Pela forma que a simulação foi construída, as observações são de fato independentes entre sim.
+
+### ANOVA {-}
+Agora que comprovamos que as suposições da ANOVA estão satisfeitas pela simulação, vamos aplicá-la.
+```{r}
+tsim.aov = aov(TSim ~ Trat * Virus, data = tsim)
+summary(tsim.aov)
+```
+
+Podemos ver que, a um nível de $5\%$, somente o efeito da interação entre _Tratamento_ e _Vírus_ mostrou-se significativo para explicar a variância do consumo médio de oxigênio. \newline
+Agora vamos checar atráves do gráfico de interação se essa satisfaz a interação sugerida no enunciado da questão.
+
+```{r}
+interaction.plot(tsim$Trat, tsim$Virus, tsim$TSim, xlab = "Tratamento", ylab = "Média de consumo O2", trace.label = "Vírus") 
+```
+
+De fato satisfaz.
+
