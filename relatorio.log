@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.9.27)  27 SEP 2020 16:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.9.27)  29 SEP 2020 23:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -931,128 +931,129 @@ l.261
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.261 
-      ] [3]
+      ]
 
-LaTeX Warning: Command \' invalid in math mode on input line 323.
+LaTeX Warning: Command \' invalid in math mode on input line 321.
 
-<relatorio_files/figure-latex/unnamed-chunk-5-1.pdf, id=85, 469.755pt x 325.215
-pt>
+[3]
+<relatorio_files/figure-latex/unnamed-chunk-5-1.pdf, id=125, 469.755pt x 325.21
+5pt>
 File: relatorio_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (type pdf
 )
 <use relatorio_files/figure-latex/unnamed-chunk-5-1.pdf>
 Package pdftex.def Info: relatorio_files/figure-latex/unnamed-chunk-5-1.pdf  us
-ed on input line 363.
+ed on input line 361.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Overfull \hbox (39.99884pt too wide) in paragraph at lines 363--364
+Overfull \hbox (39.99884pt too wide) in paragraph at lines 361--362
 [][] 
  []
 
 [4] [5 <./relatorio_files/figure-latex/unnamed-chunk-5-1.pdf>]
-<relatorio_files/figure-latex/unnamed-chunk-7-1.pdf, id=100, 469.755pt x 325.21
+<relatorio_files/figure-latex/unnamed-chunk-7-1.pdf, id=140, 469.755pt x 325.21
 5pt>
 File: relatorio_files/figure-latex/unnamed-chunk-7-1.pdf Graphic file (type pdf
 )
 <use relatorio_files/figure-latex/unnamed-chunk-7-1.pdf>
 Package pdftex.def Info: relatorio_files/figure-latex/unnamed-chunk-7-1.pdf  us
-ed on input line 403.
+ed on input line 401.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Overfull \hbox (39.99884pt too wide) in paragraph at lines 403--404
+Overfull \hbox (39.99884pt too wide) in paragraph at lines 401--402
 [][] 
  []
 
-<relatorio_files/figure-latex/unnamed-chunk-8-1.pdf, id=101, 469.755pt x 325.21
+<relatorio_files/figure-latex/unnamed-chunk-8-1.pdf, id=141, 469.755pt x 325.21
 5pt>
 File: relatorio_files/figure-latex/unnamed-chunk-8-1.pdf Graphic file (type pdf
 )
 <use relatorio_files/figure-latex/unnamed-chunk-8-1.pdf>
 Package pdftex.def Info: relatorio_files/figure-latex/unnamed-chunk-8-1.pdf  us
-ed on input line 414.
+ed on input line 412.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Overfull \hbox (39.99884pt too wide) in paragraph at lines 414--415
+Overfull \hbox (39.99884pt too wide) in paragraph at lines 412--413
 [][] 
  []
 
 [6 <./relatorio_files/figure-latex/unnamed-chunk-7-1.pdf>] [7 <./relatorio_file
 s/figure-latex/unnamed-chunk-8-1.pdf>]
-<relatorio_files/figure-latex/unnamed-chunk-11-1.pdf, id=122, 469.755pt x 325.2
+<relatorio_files/figure-latex/unnamed-chunk-11-1.pdf, id=162, 469.755pt x 325.2
 15pt>
 File: relatorio_files/figure-latex/unnamed-chunk-11-1.pdf Graphic file (type pd
 f)
 <use relatorio_files/figure-latex/unnamed-chunk-11-1.pdf>
 Package pdftex.def Info: relatorio_files/figure-latex/unnamed-chunk-11-1.pdf  u
-sed on input line 474.
+sed on input line 472.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Overfull \hbox (39.99884pt too wide) in paragraph at lines 474--475
+Overfull \hbox (39.99884pt too wide) in paragraph at lines 472--473
 [][] 
  []
 
 
-LaTeX Warning: Command \' invalid in math mode on input line 486.
+LaTeX Warning: Command \' invalid in math mode on input line 484.
 
 [8 <./relatorio_files/figure-latex/unnamed-chunk-11-1.pdf>] [9]
-<relatorio_files/figure-latex/unnamed-chunk-14-1.pdf, id=139, 469.755pt x 325.2
+<relatorio_files/figure-latex/unnamed-chunk-14-1.pdf, id=180, 469.755pt x 325.2
 15pt>
 File: relatorio_files/figure-latex/unnamed-chunk-14-1.pdf Graphic file (type pd
 f)
 <use relatorio_files/figure-latex/unnamed-chunk-14-1.pdf>
 Package pdftex.def Info: relatorio_files/figure-latex/unnamed-chunk-14-1.pdf  u
-sed on input line 554.
+sed on input line 552.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Overfull \hbox (39.99884pt too wide) in paragraph at lines 554--555
+Overfull \hbox (39.99884pt too wide) in paragraph at lines 552--553
 [][] 
  []
 
 [10 <./relatorio_files/figure-latex/unnamed-chunk-14-1.pdf>]
-<relatorio_files/figure-latex/unnamed-chunk-18-1.pdf, id=152, 469.755pt x 325.2
+<relatorio_files/figure-latex/unnamed-chunk-18-1.pdf, id=193, 469.755pt x 325.2
 15pt>
 File: relatorio_files/figure-latex/unnamed-chunk-18-1.pdf Graphic file (type pd
 f)
 <use relatorio_files/figure-latex/unnamed-chunk-18-1.pdf>
 Package pdftex.def Info: relatorio_files/figure-latex/unnamed-chunk-18-1.pdf  u
-sed on input line 642.
+sed on input line 640.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Overfull \hbox (39.99884pt too wide) in paragraph at lines 642--643
+Overfull \hbox (39.99884pt too wide) in paragraph at lines 640--641
 [][] 
  []
 
 [11] [12 <./relatorio_files/figure-latex/unnamed-chunk-18-1.pdf>]
-<relatorio_files/figure-latex/unnamed-chunk-20-1.pdf, id=172, 289.08pt x 325.21
+<relatorio_files/figure-latex/unnamed-chunk-20-1.pdf, id=212, 289.08pt x 325.21
 5pt>
 File: relatorio_files/figure-latex/unnamed-chunk-20-1.pdf Graphic file (type pd
 f)
 <use relatorio_files/figure-latex/unnamed-chunk-20-1.pdf>
 Package pdftex.def Info: relatorio_files/figure-latex/unnamed-chunk-20-1.pdf  u
-sed on input line 695.
+sed on input line 693.
 (pdftex.def)             Requested size: 289.09251pt x 325.22908pt.
 [13pdfTeX warning (ext4): destination with the same identifier (name{figure.1})
  has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.721 \begin{Shaded}
+l.719 \begin{Shaded}
                     pdfTeX warning (ext4): destination with the same identifier
  (name{table.3}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.721 \begin{Shaded}
+l.719 \begin{Shaded}
                      <./relatorio_files/figure-latex/unnamed-chunk-20-1.pdf>]
-<relatorio_files/figure-latex/unnamed-chunk-21-1.pdf, id=186, 469.755pt x 325.2
+<relatorio_files/figure-latex/unnamed-chunk-21-1.pdf, id=226, 469.755pt x 325.2
 15pt>
 File: relatorio_files/figure-latex/unnamed-chunk-21-1.pdf Graphic file (type pd
 f)
 <use relatorio_files/figure-latex/unnamed-chunk-21-1.pdf>
 Package pdftex.def Info: relatorio_files/figure-latex/unnamed-chunk-21-1.pdf  u
-sed on input line 776.
+sed on input line 774.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Overfull \hbox (39.99884pt too wide) in paragraph at lines 776--777
+Overfull \hbox (39.99884pt too wide) in paragraph at lines 774--775
 [][] 
  []
 
@@ -1061,120 +1062,51 @@ has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.778 N
+l.776 N
        a simulação consideramos o seguinte padrão de variação das médi...
 pdfTeX warning (ext4): destination with the same identifier (name{table.5}) has
  been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.778 N
+l.776 N
        a simulação consideramos o seguinte padrão de variação das médi...
 ]
-<esquema.png, id=193, 615.0478pt x 460.72125pt>
+<esquema.png, id=233, 615.0478pt x 460.72125pt>
 File: esquema.png Graphic file (type png)
 <use esquema.png>
-Package pdftex.def Info: esquema.png  used on input line 783.
+Package pdftex.def Info: esquema.png  used on input line 781.
 (pdftex.def)             Requested size: 234.87494pt x 175.94058pt.
 [15pdfTeX warning (ext4): destination with the same identifier (name{figure.2})
  has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.799 \end{Shaded}
-                   <./relatorio_files/figure-latex/unnamed-chunk-21-1.pdf> <./e
-squema.PNG>]
-<relatorio_files/figure-latex/unnamed-chunk-22-1.pdf, id=207, 469.755pt x 325.2
-15pt>
-File: relatorio_files/figure-latex/unnamed-chunk-22-1.pdf Graphic file (type pd
-f)
-<use relatorio_files/figure-latex/unnamed-chunk-22-1.pdf>
-Package pdftex.def Info: relatorio_files/figure-latex/unnamed-chunk-22-1.pdf  u
-sed on input line 864.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (39.99884pt too wide) in paragraph at lines 864--865
-[][] 
- []
-
-[16] [17 <./relatorio_files/figure-latex/unnamed-chunk-22-1.pdf>]
-<relatorio_files/figure-latex/unnamed-chunk-22-2.pdf, id=222, 469.755pt x 325.2
-15pt>
-File: relatorio_files/figure-latex/unnamed-chunk-22-2.pdf Graphic file (type pd
-f)
-<use relatorio_files/figure-latex/unnamed-chunk-22-2.pdf>
-Package pdftex.def Info: relatorio_files/figure-latex/unnamed-chunk-22-2.pdf  u
-sed on input line 940.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (39.99884pt too wide) in paragraph at lines 940--941
-[][] 
- []
-
-[18 <./relatorio_files/figure-latex/unnamed-chunk-22-2.pdf>] [19]
-<relatorio_files/figure-latex/unnamed-chunk-22-3.pdf, id=238, 469.755pt x 325.2
-15pt>
-File: relatorio_files/figure-latex/unnamed-chunk-22-3.pdf Graphic file (type pd
-f)
-<use relatorio_files/figure-latex/unnamed-chunk-22-3.pdf>
-Package pdftex.def Info: relatorio_files/figure-latex/unnamed-chunk-22-3.pdf  u
-sed on input line 1018.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (39.99884pt too wide) in paragraph at lines 1018--1019
-[][] 
- []
-
-<relatorio_files/figure-latex/unnamed-chunk-22-4.pdf, id=239, 469.755pt x 325.2
-15pt>
-File: relatorio_files/figure-latex/unnamed-chunk-22-4.pdf Graphic file (type pd
-f)
-<use relatorio_files/figure-latex/unnamed-chunk-22-4.pdf>
-Package pdftex.def Info: relatorio_files/figure-latex/unnamed-chunk-22-4.pdf  u
-sed on input line 1028.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (39.99884pt too wide) in paragraph at lines 1028--1029
-[][] 
- []
-
-[20 <./relatorio_files/figure-latex/unnamed-chunk-22-3.pdf>] [21 <./relatorio_f
-iles/figure-latex/unnamed-chunk-22-4.pdf>]
-<relatorio_files/figure-latex/unnamed-chunk-22-5.pdf, id=260, 469.755pt x 325.2
-15pt>
-File: relatorio_files/figure-latex/unnamed-chunk-22-5.pdf Graphic file (type pd
-f)
-<use relatorio_files/figure-latex/unnamed-chunk-22-5.pdf>
-Package pdftex.def Info: relatorio_files/figure-latex/unnamed-chunk-22-5.pdf  u
-sed on input line 1079.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (39.99884pt too wide) in paragraph at lines 1079--1080
-[][] 
- []
-
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1081.
-[22 <./relatorio_files/figure-latex/unnamed-chunk-22-5.pdf>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1081.
+l.797 \begin{Shaded}
+                     <./relatorio_files/figure-latex/unnamed-chunk-21-1.pdf> <.
+/esquema.PNG>] [16] [17] [18] [19]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1090.
+[20]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1090.
 (./relatorio.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1081.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1081.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1090.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1090.
 
 Package rerunfilecheck Info: File `relatorio.out' has not changed.
-(rerunfilecheck)             Checksum: 507EE39C82B8C540FE1343B32EC51733;650.
+(rerunfilecheck)             Checksum: A933E9DB694195A00CE33C4C476FB138;1603.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1081.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1090.
  ) 
 Here is how much of TeX's memory you used:
- 16303 strings out of 482780
- 254979 string characters out of 5952290
- 525067 words of memory out of 5000000
- 31279 multiletter control sequences out of 15000+600000
+ 16311 strings out of 482780
+ 253986 string characters out of 5952290
+ 526513 words of memory out of 5000000
+ 31278 multiletter control sequences out of 15000+600000
  620219 words of font info for 97 fonts, out of 8000000 for 9000
  16 hyphenation exceptions out of 8191
- 43i,12n,37p,556b,479s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 43i,12n,37p,618b,479s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{Hfootnote.5} has been referenced but does not exi
 st, replaced by a fixed one
 
@@ -1214,10 +1146,10 @@ lm/lmsy10.pfb><c:/Users/Rubens/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/p
 ublic/lm/lmtk10.pfb><c:/Users/Rubens/AppData/Roaming/TinyTeX/texmf-dist/fonts/t
 ype1/public/lm/lmtt10.pfb><c:/Users/Rubens/AppData/Roaming/TinyTeX/texmf-dist/f
 onts/type1/public/lm/lmtti10.pfb>
-Output written on relatorio.pdf (22 pages, 439686 bytes).
+Output written on relatorio.pdf (20 pages, 422279 bytes).
 PDF statistics:
- 347 PDF objects out of 1000 (max. 8388607)
- 276 compressed objects within 3 object streams
- 57 named destinations out of 1000 (max. 500000)
- 127 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 355 PDF objects out of 1000 (max. 8388607)
+ 296 compressed objects within 3 object streams
+ 71 named destinations out of 1000 (max. 500000)
+ 166 words of extra memory for PDF output out of 10000 (max. 10000000)
 

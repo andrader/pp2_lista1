@@ -93,7 +93,7 @@ knitr::opts_template$set(
                 # out.width = "\\textheight"
                 ))
 
-# uso: <<r, opts.label='figuras'>>=
+# uso: ```{r, r, opts.label='figuras'}
 # uso: ```{r, opts.label='figuras'}
 
 
@@ -223,7 +223,6 @@ E sob as suposições de normalidade, independência e homocedasticidade, querem
 $$H_0 :\ \mu_{ij}=\mu_{kl}, \forall (i,j) \neq (k,l) \ \text{vs }\\
 H_1 :\ \text{existe pelo menos uma diferença entre as médias.}$$
 
-dsfjadsjfldsjfldsfdfjlsadkfjlsdafj
 
 
 ## a) T6
@@ -251,7 +250,7 @@ t6.aov = aov(T6 ~ Trat * Virus, data = t6)
 summary(t6.aov)
 ```
 
-Podemos observar, então, que a um nível de $5\%$ somente a variável _Vírus_ se mostra significativa, então a hipótese que mudanças no tratamento não interferem na média do consumo de oxigênio é mantida. Além disso, uma possível interação entre _Tratamento_ e _Vírus_ não é significativa para explicar variações no consumo de oxigênio. \newline
+Podemos observar, então, que a um nível de $5\%$ somente a variável _Vírus_ se mostra significativa, então a hipótese que mudanças no tratamento não interferem na média do consumo de oxigênio é mantida. Além disso, uma possível interação entre _Tratamento_ e _Vírus_ não é significativa para explicar variações no consumo de oxigênio. 
 Como um adendo, o gráfico abaixo mostra que a interação entre _Vírus_ e _Tratamento_ é de fato muito baixa, visto que as retas são quase paralelas entre si.
 
 ```{r}
@@ -267,7 +266,7 @@ t12.aov = aov(T12 ~ Trat * Virus, data = t12)
 summary(t12.aov)
 ```
 
-Podemos observar, então, que a um nível de $5\%$ somente a variável _Tratamento_ se mostra significativa, então a hipótese que mudanças no tratamento não interferem na média do consumo de oxigênio é rejeitada. \newline
+Podemos observar, então, que a um nível de $5\%$ somente a variável _Tratamento_ se mostra significativa, então a hipótese que mudanças no tratamento não interferem na média do consumo de oxigênio é rejeitada. 
 É interessante notar que o algoritmo não mostra significância da interação entre _Tratamento_ e _Vírus_, mas o gráfico de interação abaixo mostra que ela existe. Então, vamos investigar um pouco mais a fundo se tal interação é realmente não-significativa ou se seu efeito está sendo mascarado por algum ponto.
 
 ```{r}
@@ -389,7 +388,7 @@ tsim.aov = aov(TSim ~ Trat * Virus, data = tsim)
 summary(tsim.aov)
 ```
 
-Podemos ver que, a um nível de $5\%$, somente a interação entre _Tratamento_ e _Vírus_ mostrou-se significativa para explicar a variância do consumo médio de oxigênio. \newline
+Podemos ver que, a um nível de $5\%$, somente a interação entre _Tratamento_ e _Vírus_ mostrou-se significativa para explicar a variância do consumo médio de oxigênio. 
 Agora vamos checar atráves do gráfico de interação se essa satisfaz a interação sugerida no enunciado da questão.
 
 ```{r}
@@ -452,50 +451,89 @@ knitr::include_graphics("esquema.png")
 # Questão 2
 
 
-```{r}
-##Q2
-resp<-c(0.02,-0.01,-0.03,0.04,0.15,0.27,0.14,0.22,0.18,0.24,0.11,0.18,0.45,0.58,0.35,0.48)
-resp
-x<-rep(rep(c(0,1),each=4),2)
-y<-rep(c(0,1),each=8)
-fx<-rep(c(1,2,3,4),4)
-trat<-rep(c(1,2,3,4),each=4)
-dados<-data.frame(x,y,fx,trat,resp)
-str(dados)
-fitxy<-aov(resp~factor(fx)+x*y, dados)
-summary(fitxy)
 
-#Efeito de interação entre Tratamento e Fx (Bloco)
-fitxy$coefficients
-with(data.frame(dados), interaction.plot(factor(trat),factor(fx),resp,main="Gráfico de interação"))
-fxi<-rep(c(0,fitxy$coefficients[2:4]),4)
-fxi
-xyi<-rep(c(0,fitxy$coefficients[5:7]),each=4)
-xyi
-fxyi<-fxi*xyi
-fxyi
-fititb<-aov(resp~factor(fx)+x*y+fxyi)
-summary(fititb)
-#Não há efeito significante de interação entre Tratamentos e Fx (Bloco)
 
-#Gráfico de Perfis de Médias de Tratamentos (X e Y)
-with(data.frame(dados), interaction.plot(factor(x),factor(y),resp,main="Gráfico de interação"))
-#Como o modelo é aditivo (entre Trat e Fx) o gráfico de interação é o mesmo com
-#ou sem o ajuste por FX
-#Contudo, somente no modelo ajustado por Fx é que o efeito de interação é significante
-fitxy$coefficients
-respi<-model.matrix(fitxy)%*%fitxy$coefficients[1:7]
-respi
-dadosi<-cbind(dados[,1],dados[,2],respi)
-dadosi
-with(data.frame(dadosi), interaction.plot(factor(dadosi[,1]),factor(dadosi[,2]),respi,main="Gráfico de interação ajustado"))
-par(mfrow=c(1,2))
-with(data.frame(dados), interaction.plot(factor(x),factor(y),resp,main="Gráfico de interação"))
-with(data.frame(dadosi), interaction.plot(factor(dadosi[,1]),factor(dadosi[,2]),respi,main="Gráfico de interação ajustado"))
-plot(resp,respi)
-cbind(resp,respi)
-tapply(resp,trat,mean)
-tapply(respi,trat,mean)
+# Questão 3
 
+## Tratamento dos Dados
+
+```{r, echo=TRUE,cache=TRUE}
+library(MANOVA.RM)
+dat.long<-o2cons
+#dat.long
+names(dat.long)
+names(dat.long)<-c("O2","Staph","Time","Grup","Subj")
+#dat.long
+
+library(reshape2)
+dat.wide <- dcast(dat.long, Subj + Grup + Staph~ Time, value.var="O2")
+#dat.wide
+
+dat<-dat.wide
+attach(dat)
+names(dat)
+dat<-cbind(dat,c(rep(1:2,12),rep(3:4,12)))
+names(dat)<-c("Subj","Trat","Virus","T6","T12","T18","Grup")
+dat<-dat[,2:7]
+attach(dat)
+str(dat)
 ```
 
+## Analisando
+
+Teste F global sob premissas clássicas e Teste de aleatorização:
+
+```{r, echo=TRUE,cache=TRUE}
+library(lmPerm)
+anova(aov(T6~Trat*factor(Virus), data = dat))
+anova(lmp(T6~Trat*factor(Virus), data = dat))
+```
+No T6, ambas as respostas foram satisfatórias. tanto a anova quanto o teste de aleatorização rejeitam as variáveis menos signifcativas retornando um p-valor elevado e aceitariam a variável significativa, retornando um p-valor pequeno.
+
+
+```{r, echo=TRUE,cache=TRUE}
+anova(aov(T12~Trat*factor(Virus), data = dat))
+anova(lmp(T12~Trat*factor(Virus), data = dat))
+```
+
+Para T12, apesar do teste de aleatorização ter obtido resultados distantes da Anova, ele tbm retornou   p-valores altos para as variáveis menos significativas e bem baixo para a mais, ou seja, ambas tiveram o mesmo desempenho. 
+
+
+```{r, echo=TRUE,cache=TRUE}
+anova(aov(T18~Trat*factor(Virus), data = dat))
+anova(lmp(T18~Trat*factor(Virus), data = dat))
+```
+
+No T18, ambos os testes retornaram p-valores muito próximos, sendo provavelmente os mais aproximados dos dois testes
+
+
+## Conclusão
+Tanto o Teste F global sob premissas clássicas quanto o Teste de aleatorização obitiveram desempenhos muito próximos, sendo que, para os valores de significância mais utilizados (0.05,0.01, etc), ambos os testes levariam as mesmas conclusões.
+
+
+# Questão 4
+
+## Organização dos Dados
+
+```{r, echo=TRUE,cache=TRUE}
+df = data.frame(taxa_cresc = c(0.02, 0.27, 0.11, 0.48, 0.15, 0.24, 0.35, 0.04, 0.45, -0.01, 0.14, 0.18, 0.18, 0.58, -0.03, 0.22),
+                
+faixa_etaria = c(rep(c(1, 2, 3, 4),times=4)), 
+
+medicamento = c("A", "B", "C", "D", "B", "C", "D", "A", "D", "A", "B", "C", "C", "D", "A", "B")
+  
+)
+
+df$faixa_etaria <- as.factor(df$faixa_etaria)
+df$medicamento <- as.factor(df$medicamento)
+```
+
+## Analisando
+
+```{r, echo=TRUE,cache=TRUE}
+anova(aov(taxa_cresc ~ medicamento + faixa_etaria, data = df))
+anova(lmp(taxa_cresc ~ medicamento + faixa_etaria, data = df))
+```
+ 
+## Conclusão
+como é possível ver, ambos os testes tiveram resultados próximos e retornaram um baixo p-valor para a variável mais significativa, ou seja, os dois testes levariam as mesmas conclusões.
