@@ -177,12 +177,12 @@ dados <- dados %>%
 attach(dados)
 
 # Tamanho dos grupos
-table(Grup) %>% kable(caption='caption')
+table(Grup) %>% kable(caption='Tamanho dos grupos')
 
 # Médias por grupo
 dados %>% group_by(Grup) %>% 
   summarise(across(T6:T18, mean, .names = 'Média {col}')) %>% 
-  kable(caption='caption')
+  kable(caption='Média por grupo')
 ```
 
 Os dados estão estruturados da seguinte forma:
@@ -254,7 +254,8 @@ Podemos observar, então, que a um nível de $5\%$ somente a variável _Vírus_ 
 Como um adendo, o gráfico abaixo mostra que a interação entre _Vírus_ e _Tratamento_ é de fato muito baixa, visto que as retas são quase paralelas entre si.
 
 ```{r}
-interaction.plot(t6$Trat, t6$Virus, t6$T6, xlab = "Tratamento", ylab = "Média de consumo O2", trace.label = "Vírus") 
+interaction.plot(t6$Trat, t6$Virus, t6$T6, xlab = "Tratamento", 
+                 ylab = "Média de consumo O2", trace.label = "Vírus") 
 ```
 
 ## b) T12
@@ -270,7 +271,8 @@ Podemos observar, então, que a um nível de $5\%$ somente a variável _Tratamen
 É interessante notar que o algoritmo não mostra significância da interação entre _Tratamento_ e _Vírus_, mas o gráfico de interação abaixo mostra que ela existe. Então, vamos investigar um pouco mais a fundo se tal interação é realmente não-significativa ou se seu efeito está sendo mascarado por algum ponto.
 
 ```{r}
-interaction.plot(t12$Trat, t12$Virus, t12$T12, xlab = "Tratamento", ylab = "Média de consumo O2", trace.label = "Vírus") 
+interaction.plot(t12$Trat, t12$Virus, t12$T12, xlab = "Tratamento", 
+                 ylab = "Média de consumo O2", trace.label = "Vírus") 
 ```
 
 Vamos então procurar pontos influentes.
@@ -300,7 +302,8 @@ summary(t18.aov)
 Para esse tipo de célula tanto _Tratamento_ quanto _Vírus_ são significativas para explicar a variação do consumo médio de oxigênio a um nível de $5\%$. Novamente, a interação entre as duas não parece significativa.
 
 ```{r}
-interaction.plot(t18$Trat, t18$Virus, t18$T18, xlab = "Tratamento", ylab = "Média de consumo O2", trace.label = "Vírus") 
+interaction.plot(t18$Trat, t18$Virus, t18$T18, xlab = "Tratamento", 
+                 ylab = "Média de consumo O2", trace.label = "Vírus") 
 ```
 
 Notemos, novamente, que até existe certa interação, mas graficamente ela também não parece significativa.
@@ -310,6 +313,7 @@ Agora o objetivo é construir um novo tipo de célula a partir de uma simulaçã
 $$y_{ijk} = \mu + \tau_{tratamento} + \beta_{virus} + (\tau\beta)_{tratamento : vírus} + e_{ij}$$
 
 Estamos considerando também que as observações tem distribuição Normal. Agora, vamos definir as variáveis arbitrariamente, para construir as simulações e conseguir o efeito desejado de interação.
+
 
 ```{r}
 set.seed(42)
@@ -385,62 +389,18 @@ Pela forma que a simulação foi construída, as observações são de fato inde
 Agora que comprovamos que as suposições da ANOVA estão satisfeitas pela simulação, vamos aplicá-la.
 ```{r}
 tsim.aov = aov(TSim ~ Trat * Virus, data = tsim)
-summary(tsim.aov)
+anova(tsim.aov) %>% kable(caption="Anova do modelo com interação.")
 ```
 
 Podemos ver que, a um nível de $5\%$, somente a interação entre _Tratamento_ e _Vírus_ mostrou-se significativa para explicar a variância do consumo médio de oxigênio. 
 Agora vamos checar atráves do gráfico de interação se essa satisfaz a interação sugerida no enunciado da questão.
 
 ```{r}
-interaction.plot(tsim$Trat, tsim$Virus, tsim$TSim, xlab = "Tratamento", ylab = "Média de consumo O2", trace.label = "Vírus") 
+interaction.plot(tsim$Trat, tsim$Virus, tsim$TSim, xlab = "Tratamento", 
+                 ylab = "Média de consumo O2", trace.label = "Vírus") 
 ```
 
 De fato satisfaz.
-
-## d) 
-
-Simulamos os dados de um novo tipo celular (digamos TSim) em que há efeito de interação entre Tratamento  e  exposição  ao  Virus. Propomos  uma  análise  dos  dados  gerados.
-```{r}
-#Simulando dados
-#Experimento DCA Fatorial 2x2 com efeito de interação
-#Modelo estrutural: y=mi+tau1+tau2+tau12+e
-set.seed(1)
-mi<- 4
-tau1.1<- (-1.8)
-tau2.1<- (-2)
-tau12.11<- 6
-sigma<-1
-mi00<-mi
-mi01<-mi+tau2.1
-mi10<-mi+tau1.1
-mi11<-mi+tau1.1+tau2.1+tau12.11
-r<-12
-TSim<-round( c(mi00,mi01,mi10,mi11) + rnorm(4*r, 0, sigma) ,2)
-f1<-rep(0:1,each=2*r)
-f2<-rep(rep(0:1,each=r),2)
-f12<-rep(1:4,each=r)
-datSim<-data.frame(cbind(factor(f1),factor(f2),f12,TSim))
-# datSim %>% kable(caption='caption')
-str(datSim)
-```
-
-
-```{r, fig.align='center', fig.width=4, fig.cap="legenda"}
-interaction.plot(f1, f2, TSim)
-```
-
-
-```{r}
-tapply(TSim,f12,mean) %>% t() %>% kable(caption="alguma legenda")
-
-fitSim <- aov(TSim ~ f1*f2, datSim)
-#Para fatorial 2x2 é equivalente usar "aov(TSim~factor(f1)*factor(f2))"
-anova(fitSim) %>% kable(caption="fasdf")
-
-fitSim$coefficients %>% t() %>%  kable(caption="Coeficientes")
-par(mfrow=c(2,2))
-plot(fitSim)
-```
 
 Na  simulação consideramos o seguinte padrão de variação das médias de O2cons:
 ```{r pressure, echo=FALSE, fig.cap="Padrão de variação das médias de O2cons.", out.width = '50%',fig.align='center'}
@@ -450,12 +410,109 @@ knitr::include_graphics("esquema.png")
 
 # Questão 2
 
+Primeiramente, recriamos os dados na plataforma. Para isso utilizando do script já disponível no Moodle.
+
+```{r, echo=TRUE, cache=TRUE}
+resp<-c(0.02,-0.01,-0.03,0.04,
+        0.15,0.27,0.14,0.22,
+        0.18,0.24,0.11,0.18,
+        0.45,0.58,0.35,0.48)
+x<-rep(rep(c(0,1),each=4),2)
+y<-rep(c(0,1),each=8)
+fx<-rep(c(1,2,3,4),4)
+trat<-rep(c(1,2,3,4),each=4)
+dados<-cbind(x,y,fx,trat,resp)
+```
+
+Utilizando essa construção temos a tabela a seguir, em que X e Y são variáveis dicotômicas que assumem o valor 1 quando usa-se tal medicamento e 0 caso contrário; e fx e trat são variáveis categóricas que representam respectivamente a faixa etária da unidade amostral e o tratamento a que ela foi submetida. Por fim, resp é a variável de interesse, a taxa de crescimento do paciente em questão.
+
+
+```{r, echo=TRUE, cache=TRUE}
+dados
+```
+
+
+## a)
+
+Para criar o gráfico de perfis médios vamos primeiramente ajustar o modelo aov() associado, que leva em conta os medicamentos tomados e a faixaa etária do paciente.
+
+```{r, echo=TRUE, cache=TRUE}
+str(dados)
+fitxy<-aov(resp~factor(fx)+x*y)
+with(data.frame(dados), interaction.plot(factor(trat),factor(fx),resp,main="Gráfico de interação"))
+```
+
+```{r, echo=TRUE, cache=TRUE}
+with(data.frame(dados), interaction.plot(factor(x),factor(y),resp,main="Gráfico de interação"))
+```
+
+Analisando os  gráficos de perfis médios apresentados, percebe-se uma pequena indicação de interação entre as variáveis X e Y, já que as linhas não são completamente paralelas entre si, o que seria esperado caso não houvesse interação.
+
+## b)
+
+A faixa etária foi considerada no estudo porque ela pode ser um fator que influencia a variável resposta, de forma que se torna interessante ter um tipo de controle sobre ele.
+Já que não há um interesse específico de saber o efeito da faixa etária, essa variável pode ser considerado no modelo como um bloco, de forma que temos um delineamento aleatorizado em blocos.
+Este modelo supõe aditividade, adquirindo o seguinte formato:
+
+$$ y_{ij} = \mu + \tau_i + \beta_j + \epsilon_{ij}   $$
+
+
+em que $\tau_i$ representa o efeito do tratamento i e $\beta_j$ representa o efeito do bloco j na variável resposta $y_{ij}$; e o erro $\epsilon_{ij}$ possui distribuição normal e independe da variável (modelo homocedástico).  
+
+
+## c)
+
+
+Para avaliar os efeito de interação entre os medicamentos X e Y, pode-se levar em conta o modelo ajustado pelo efeito da faixa etária, bem como não ajustado.
+
+Usando a faixa etária:
+
+```{r, echo=TRUE, cache=TRUE}
+fitxy<-aov(resp~factor(fx)+x*y)
+summary(fitxy)
+```
+
+Não usando a faixa etária:
+
+```{r, echo=TRUE, cache=TRUE}
+fit1 = aov(resp~x*y)
+summary(fit1)
+```
+
+Reparemos que a estatística $Pr(< F)$ é diferente entre os dois ajustes, de forma que a interação entre os medicamentos X e Y só é significativa no modelo ajustado usando a faixa etária.
+
+
+
+
+
+## e)
+
+Para testar se a faixa etária influencia no efeito dos medicamentos X e Y, criamos uma outra ANOVA, incluindo dessa vez as interações entre os medicamentos e as faixas etárias.
+
+```{r, echo=TRUE, cache=TRUE}
+fxi<-rep(c(0,fitxy$coefficients[2:4]),4)
+xyi<-rep(c(0,fitxy$coefficients[5:7]),each=4)
+fxyi<-fxi*xyi
+fititb<-aov(resp~factor(fx)+x*y+fxyi)
+summary(fititb)
+```
+
+Podemos observar que o valor associado a essa interação (estatística $Pr(<F)$) é 0.5038, o que faz com que rejeitemos a hipotese da existencia da influencia da faixa etária no efeito dos medicamentos, a um nível de significância de 0.05.
+
+
+
+## f)
+
+
+Para julgar a maneira mais eficiente de ministrar os medicamentos X e Y podemos recorrer ao primeiro gráfico de interação mostrado no item a). Tendo em mente que nossa variável de interesse está indicado no eixo das ordenadas, fica claro que cada curva (que representa cada uma das faixas etárias) atinge seu ponto máximo sob o tratamento 4, que está ligado ao efeito combinado das duas drogas.
+Assim, conclui-se que para obter eficiência máxima no crescimento infantil as drogas X e Y devem ser ministradas em conjunto.
+
 
 
 
 # Questão 3
 
-## Tratamento dos Dados
+## Organização dos Dados
 
 ```{r, echo=TRUE,cache=TRUE}
 library(MANOVA.RM)
@@ -479,7 +536,7 @@ attach(dat)
 str(dat)
 ```
 
-## Analisando
+## Análise
 
 Teste F global sob premissas clássicas e Teste de aleatorização:
 
@@ -516,11 +573,17 @@ Tanto o Teste F global sob premissas clássicas quanto o Teste de aleatorizaçã
 ## Organização dos Dados
 
 ```{r, echo=TRUE,cache=TRUE}
-df = data.frame(taxa_cresc = c(0.02, 0.27, 0.11, 0.48, 0.15, 0.24, 0.35, 0.04, 0.45, -0.01, 0.14, 0.18, 0.18, 0.58, -0.03, 0.22),
+df = data.frame(taxa_cresc = c(0.02, 0.27, 0.11, 0.48, 
+                               0.15, 0.24, 0.35, 0.04, 
+                               0.45, -0.01, 0.14, 0.18, 
+                               0.18, 0.58, -0.03, 0.22),
                 
 faixa_etaria = c(rep(c(1, 2, 3, 4),times=4)), 
 
-medicamento = c("A", "B", "C", "D", "B", "C", "D", "A", "D", "A", "B", "C", "C", "D", "A", "B")
+medicamento = c("A", "B", "C", "D", 
+                "B", "C", "D", "A", 
+                "D", "A", "B", "C", 
+                "C", "D", "A", "B")
   
 )
 
@@ -528,7 +591,7 @@ df$faixa_etaria <- as.factor(df$faixa_etaria)
 df$medicamento <- as.factor(df$medicamento)
 ```
 
-## Analisando
+## Análise
 
 ```{r, echo=TRUE,cache=TRUE}
 anova(aov(taxa_cresc ~ medicamento + faixa_etaria, data = df))
