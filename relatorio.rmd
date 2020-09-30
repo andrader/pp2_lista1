@@ -4,7 +4,6 @@ author: |
    | Bruno de Castro Paul Schultze \thanks{Número USP: 10736862}
    | Guilherme Tamborra\thanks{Número USP: 10736816}
    | Gustavo de Oliveira Kanno\thanks{Número USP: 9795810}
-   | Rodrigo Marcel Araujo Oliveira\thanks{Número USP: 9299208}
    | Rubens Santos Andrade Filho\thanks{Número USP: 10370336}
 date: "`r stringr::str_to_sentence(format(Sys.time(), '%B de %Y'))`"
 lang: pt-BR
@@ -432,7 +431,7 @@ dados
 ```
 
 
-## a)
+## a) Gráfico  de  Perfis  de  Médias
 
 Para criar o gráfico de perfis médios vamos primeiramente ajustar o modelo aov() associado, que leva em conta os medicamentos tomados e a faixaa etária do paciente.
 
@@ -448,7 +447,7 @@ with(data.frame(dados), interaction.plot(factor(x),factor(y),resp,main="Gráfico
 
 Analisando os  gráficos de perfis médios apresentados, percebe-se uma pequena indicação de interação entre as variáveis X e Y, já que as linhas não são completamente paralelas entre si, o que seria esperado caso não houvesse interação.
 
-## b)
+## b) Faixa Etária
 
 A faixa etária foi considerada no estudo porque ela pode ser um fator que influencia a variável resposta, de forma que se torna interessante ter um tipo de controle sobre ele.
 Já que não há um interesse específico de saber o efeito da faixa etária, essa variável pode ser considerado no modelo como um bloco, de forma que temos um delineamento aleatorizado em blocos.
@@ -460,7 +459,7 @@ $$ y_{ij} = \mu + \tau_i + \beta_j + \epsilon_{ij}   $$
 em que $\tau_i$ representa o efeito do tratamento i e $\beta_j$ representa o efeito do bloco j na variável resposta $y_{ij}$; e o erro $\epsilon_{ij}$ possui distribuição normal e independe da variável (modelo homocedástico).  
 
 
-## c)
+## c) Modelo de ANOVA
 
 
 Para avaliar os efeito de interação entre os medicamentos X e Y, pode-se levar em conta o modelo ajustado pelo efeito da faixa etária, bem como não ajustado.
@@ -485,7 +484,7 @@ Reparemos que a estatística $Pr(< F)$ é diferente entre os dois ajustes, de fo
 
 
 
-## e)
+## e) Contrastes
 
 Para testar se a faixa etária influencia no efeito dos medicamentos X e Y, criamos uma outra ANOVA, incluindo dessa vez as interações entre os medicamentos e as faixas etárias.
 
@@ -501,7 +500,7 @@ Podemos observar que o valor associado a essa interação (estatística $Pr(<F)$
 
 
 
-## f)
+## f) Administração dos Medicamentos
 
 
 Para julgar a maneira mais eficiente de ministrar os medicamentos X e Y podemos recorrer ao primeiro gráfico de interação mostrado no item a). Tendo em mente que nossa variável de interesse está indicado no eixo das ordenadas, fica claro que cada curva (que representa cada uma das faixas etárias) atinge seu ponto máximo sob o tratamento 4, que está ligado ao efeito combinado das duas drogas.
